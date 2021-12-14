@@ -16,9 +16,13 @@ const thoughtSchema = new Schema(
   }
 );
 // Not sure about this date formatter!
-thoughtSchema.virtual("format_date").get(function () {
+thoughtSchema.virtual("formatDate").get(function () {
   let date = new Date(this.createdAt);
   return date.format("m/dd/yy");
+});
+
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
 });
 
 const Thought = model("thought", thoughtSchema);
