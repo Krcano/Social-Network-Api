@@ -8,9 +8,11 @@ const {
   getSingleUser,
   deleteUser,
   updateUser,
+  createFriend
 
   // this is where the methods go from the controllers file
 } = require("../../controllers/userController");
+const { create } = require("../../models/Thought");
 
 // /api/users
 router.route("/").get(getUsers).post(createUser);
@@ -19,6 +21,8 @@ router.route("/").get(getUsers).post(createUser);
 router.route("/:userId").get(getSingleUser).post(deleteUser);
 
 // /api/users/:userId
-router.put("/:userId");
+router.route("/:userId").put(updateUser);
+
+router.route("/:userId/friends/:friendId").post(createFriend);
 
 module.exports = router;
