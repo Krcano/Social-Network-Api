@@ -1,28 +1,30 @@
 const router = require("express").Router();
 
-const { User, Thought, Reaction } = require("../../models");
-
 const {
   getUsers,
   createUser,
   getSingleUser,
   deleteUser,
   updateUser,
-  createFriend
+  createFriend,
+  deleteFriend,
 
   // this is where the methods go from the controllers file
 } = require("../../controllers/userController");
-const { create } = require("../../models/Thought");
 
 // /api/users
+// for getting all users and creating a user
 router.route("/").get(getUsers).post(createUser);
 
-// /api/users/:userId
-router.route("/:userId").get(getSingleUser).post(deleteUser);
+//For getting a single user and delete  /api/users/:userId
+router.route("/:userId").get(getSingleUser).delete(deleteUser);
 
-// /api/users/:userId
+//For update /api/users/:userId
 router.route("/:userId").put(updateUser);
-
-router.route("/:userId/friends/:friendId").post(createFriend);
+// creates a friend
+router
+  .route("/:userId/friends/:friendId")
+  .post(createFriend)
+  .delete(deleteFriend);
 
 module.exports = router;
