@@ -10,9 +10,8 @@ const userSchema = new Schema(
       unique: true,
       match: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please fill a valid email address",
+        "Please input a valid email address",
       ],
-      // need help with match validator
     },
     thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
 
@@ -21,7 +20,7 @@ const userSchema = new Schema(
   {
     toJSON: {
       getters: true,
-      virtuals:true
+      virtuals: true,
     },
     // getters method for date formatting?
   }

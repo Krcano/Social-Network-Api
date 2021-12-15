@@ -37,9 +37,11 @@ module.exports = {
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
       .then((user) => {
-        !user
-          ? res.status(404).json({ message: "No user with that id" })
-          : res.json({ message: `user deleted` });
+        if (!user) {
+          res.status(404).json({ message: "No user with that id" });
+        }
+
+        res.json({ message: `user deleted` });
       })
       .catch((err) => {
         console.log(err);

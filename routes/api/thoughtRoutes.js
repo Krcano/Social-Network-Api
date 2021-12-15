@@ -1,11 +1,13 @@
 const router = require("express").Router();
 
-const { User, Thought, Reaction } = require("../../models");
-
 // brings in methods from controller file
 const {
   createThought,
   getThoughts,
+  getSingleThought,
+  deleteThought,
+  updateThought,
+  addReaction,
 
   // this is where the methods go from the controllers file
 } = require("../../controllers/thoughtController");
@@ -13,5 +15,14 @@ const {
 //   Routes
 
 router.route("/").get(getThoughts).post(createThought);
+
+router
+  .route("/:thoughtId")
+  .get(getSingleThought)
+  .delete(deleteThought)
+  .put(updateThought);
+
+  // reaction post method is faulty/ no reaction made
+router.route("/:thoughtId/reactions").post(addReaction);
 
 module.exports = router;
