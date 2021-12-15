@@ -1,0 +1,63 @@
+const { User, Thought, Reaction } = require("../models");
+
+module.exports = {
+    // gets users
+  getUsers(req, res) {
+    User.find()
+      .then(async (users) => {
+        const userObj = {
+          users,
+        };
+        return res.json(userObj);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+  },
+//   creates user needss to save data to db
+  createUser(req, res) {
+    User.create(req.body)
+      .then((user) => res.json(user))
+      .catch((err) => res.status(500).json(err));
+  },
+
+//   gets one user
+  getSingleUser(req, res) {
+    User.findOne({ _id: req.params.userId }).then(async (user) => {
+      !user
+        ? res.status(404).json({ message: "No user with that id" })
+        : res.json({
+            user,
+            // needs friend data too
+          });
+    });
+  },
+//   deletes user
+  deleteUser(req, res) {
+    User.findOneAndDelete({ _id: req.params.userId })
+      .then((user) => {
+        !user
+          ? res.status(404).json({ message: "No user with that id" })
+          : res.json({ message: `user deleted` });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+  },
+  updateUser(req, res){
+      User.findOneAndUpdate(
+          {_id:req.params.userId},
+          {$set:req.body},
+          {runValidators:true, new:true}
+      )
+      .then((course) =>
+      !course
+        ? res.status(404).json({ message: 'No user with this id!' })
+        : res.json(course)
+    )
+    .catch((err) => res.status(500).json(err));
+  }
+  
+};
