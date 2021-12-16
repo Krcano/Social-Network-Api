@@ -1,9 +1,14 @@
-const { Schema, model, now } = require("mongoose");
+const { Schema, model, now, Types } = require("mongoose");
 
 const reactionSchema = new Schema(
   {
     // Need help with REaction ID
-    reactionId: { type: Schema.Types.ObjectId, default: function(){return new ObjectId()}},
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: function () {
+        return new Types.ObjectId();
+      },
+    },
     reactionBody: { type: String, required: true, maxlength: 280 },
     username: { type: String, required: true },
     createdAt: {
@@ -15,11 +20,10 @@ const reactionSchema = new Schema(
   {
     toJSON: {
       getters: true,
-
     },
-    
-      id: false,
-    
+
+    id: false,
+
     // getters method for date formatting?
   }
 );

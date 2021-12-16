@@ -41,16 +41,14 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-// updates thought but mus inlcude the thoughtText, username, and userId in the body
+  // updates thought but mus inlcude the thoughtText, username, and userId in the body
   updateThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((updatedThought) =>
-        res.json( updatedThought)
-      )
+      .then((updatedThought) => res.json(updatedThought))
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -66,24 +64,23 @@ module.exports = {
       })
       .catch((err) => res.status(500).json(err));
   },
-// currently its returning an unrelated thought and not adding a reaction
+  // currently its returning an unrelated thought and not adding a reaction
   addReaction(req, res) {
     console.log("You are adding a reaction");
     console.log(req.body);
-    console.log(req.params.thoughtId)
+    console.log(req.params.thoughtId);
     Thought.findOneAndUpdate(
-      (
-      console.log("You are in the process"),
+      (console.log("You are in the process"),
       { _id: req.params.thoughtId },
-      { $push: { reactions: req.body } },
+      { $addToSet: { reactions: req.body } },
       { runValidators: false, new: true })
     )
       .then((newreaction) => {
-        console.log(newreaction)
+        console.log(newreaction);
         if (!newreaction) {
           res.status(404).json({ message: `no reaction created` });
         }
-        res.json(reaction);
+        res.json(newreaction);
       })
       .catch((err) => res.status(500).json(err));
   },
