@@ -83,7 +83,7 @@ module.exports = {
         }
         res.json(newreaction);
         // console.log(req.body);
-        
+        // res.json(req.body);
       })
       .catch((err) => res.status(500).json(err));
   },
