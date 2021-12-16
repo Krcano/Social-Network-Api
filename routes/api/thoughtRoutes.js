@@ -22,7 +22,7 @@ router
   .delete(deleteThought)
   .put(updateThought);
 
-  // reaction post method is faulty/ no reaction made
+// reaction post method is faulty/ no reaction made
 router.route("/:thoughtId/reactions").post(addReaction);
 
 module.exports = router;

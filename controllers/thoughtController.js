@@ -72,15 +72,18 @@ module.exports = {
     Thought.findOneAndUpdate(
       (console.log("You are in the process"),
       { _id: req.params.thoughtId },
-      { $addToSet: { reactions: req.body } },
-      { runValidators: false, new: true })
+      { $push: { reactions: req.body } },
+      { runValidators: false, new: true },
+      console.log("after validators-----------"),
+      console.log(req.body))
     )
       .then((newreaction) => {
-        console.log(newreaction);
         if (!newreaction) {
           res.status(404).json({ message: `no reaction created` });
         }
         res.json(newreaction);
+        // console.log(req.body);
+        
       })
       .catch((err) => res.status(500).json(err));
   },
