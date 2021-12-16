@@ -3,17 +3,23 @@ const { Schema, model, now } = require("mongoose");
 const reactionSchema = new Schema(
   {
     // Need help with REaction ID
-    reactionId:{type: Schema.Types.ObjectId},
+    reactionId: { type: Schema.Types.ObjectId, default: function(){return new ObjectId()}},
     reactionBody: { type: String, required: true, maxlength: 280 },
     username: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now,
-    // get:
-   },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      // get:
+    },
   },
   {
     toJSON: {
       getters: true,
+
     },
+    
+      id: false,
+    
     // getters method for date formatting?
   }
 );

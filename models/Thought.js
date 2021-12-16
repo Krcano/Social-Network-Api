@@ -11,7 +11,6 @@ const thoughtSchema = new Schema(
       // }
     },
     username: { type: String, required: true },
-    // reactions: [{ type: Schema.Types.ObjectId, ref: "Reaction" }],
     reactions: [reactionSchema],
     // not too sure about reaction as an array of nested docs
   },

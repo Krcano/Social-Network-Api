@@ -2,10 +2,10 @@ const { User, Thought, Reaction } = require("../models");
 
 module.exports = {
   createThought(req, res) {
-    console.log("thought");
+    console.log(req.body);
     Thought.create(req.body)
       .then((thought) => {
-        console.log("inside thought create");
+        console.log(thought);
         return User.findOneAndUpdate(
           { username: req.body.username },
           { $push: { thoughts: thought._id } },
@@ -70,12 +70,13 @@ module.exports = {
   addReaction(req, res) {
     console.log("You are adding a reaction");
     console.log(req.body);
+    console.log(req.params.thoughtId)
     Thought.findOneAndUpdate(
       (
       console.log("You are in the process"),
       { _id: req.params.thoughtId },
-      { $addToSet: { reactions: req.body } },
-      { runValidators: true, new: true })
+      { $push: { reactions: req.body } },
+      { runValidators: false, new: true })
     )
       .then((newreaction) => {
         console.log(newreaction)
