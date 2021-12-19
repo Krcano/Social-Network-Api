@@ -1,14 +1,13 @@
 const { Schema, model } = require("mongoose");
 const reactionSchema = require("./Reaction");
+const moment = require("moment");
 const thoughtSchema = new Schema(
   {
     thoughtText: { type: String, required: true, minlength: 1, maxlength: 280 },
     createdAt: {
       type: Date,
       default: Date.now,
-      // get: (date)=>{
-      //     return date.format("mm/dd/yy")
-      // }
+      get: (time) => moment(time).format("MMM DD YYYY [at] hh:mm a"),
     },
     username: { type: String, required: true },
     reactions: [reactionSchema],
@@ -18,15 +17,15 @@ const thoughtSchema = new Schema(
     toJSON: {
       getters: true,
     },
-    // getters method for date formatting?
+   
   }
+  
 );
-// Not sure about this date formatter!
-// thoughtSchema.virtual("formatDate").get(function () {
-//   let date = new Date(this.createdAt);
-//   return date.format("m/dd/yy");
-// });
 
+reactionSchema.eachPath(function (path) {
+  console.log(path);
+});
+// console.log(reactionSchema.paths)
 thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });

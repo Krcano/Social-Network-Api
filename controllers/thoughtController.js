@@ -18,7 +18,7 @@ module.exports = {
   },
   getThoughts(req, res) {
     Thought.find()
-      .sort({ createdAt: -1 })
+      // .sort({ createdAt: -1 })
       .then((thought) => res.json(thought))
       .catch((err) => {
         console.log(err);
@@ -66,25 +66,22 @@ module.exports = {
   },
   // currently its returning an unrelated thought and not adding a reaction
   addReaction(req, res) {
-    console.log("You are adding a reaction");
-    console.log(req.body);
-    console.log(req.params.thoughtId);
     Thought.findOneAndUpdate(
-      (console.log("You are in the process"),
       { _id: req.params.thoughtId },
-      { $push: { reactions: req.body } },
-      { runValidators: false, new: true },
-      console.log("after validators-----------"),
-      console.log(req.body))
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
     )
       .then((newreaction) => {
-        if (!newreaction) {
-          res.status(404).json({ message: `no reaction created` });
-        }
+        console.log(`${newreaction} newreaction`);
+        // if (!newreaction) {
+        //   res.status(404).json({ message: `no reaction created` });
+        // }
         res.json(newreaction);
-        // console.log(req.body);
-        // res.json(req.body);
       })
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 };
+// used a putmethod on the thoughtId route to add reaction but overwrites the previous reactions each time
