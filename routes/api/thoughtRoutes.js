@@ -8,6 +8,7 @@ const {
   deleteThought,
   updateThought,
   addReaction,
+  // removeReaction
 
   // this is where the methods go from the controllers file
 } = require("../../controllers/thoughtController");
@@ -24,5 +25,6 @@ router
 
 // reaction post method is faulty/ no reaction made
 router.route("/:thoughtId/reactions").post(addReaction);
+// .delete(removeReaction);
 
 module.exports = router;

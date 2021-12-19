@@ -83,5 +83,20 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  removeReaction(req,res){
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res
+              .status(404)
+              .json({ message: 'No thought found with that ID :(' })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+    
+  }
 };
-// used a putmethod on the thoughtId route to add reaction but overwrites the previous reactions each time
